@@ -81,7 +81,7 @@ export default function Learning() {
         const addInputMessages = [...messages, input];
         await setMessages(addInputMessages);
         console.log(addInputMessages);
-        const reply = await fetch('http://127.0.0.1:8000/createResponse', {
+        const reply = await fetch('https://chat-en-app-5044aa6f7d13.herokuapp.com/createResponse', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -249,7 +249,7 @@ function Contents({ messages }: ContentsProps) {
     const [isTranslatedUser, setIsTranslatedUser] = useState<boolean>(false);
     const [isTranslatedAi, setIsTranslatedAi] = useState<boolean>(false);
     const handleTranslate = async (message: string, isUser: boolean) => {
-        const translatedMessage = await fetch('http://127.0.0.1:8000/createTranslation', {
+        const translatedMessage = await fetch('https://chat-en-app-5044aa6f7d13.herokuapp.com/createTranslation', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

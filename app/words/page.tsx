@@ -36,7 +36,7 @@ export default function Words() {
             const messages = data && data[0] && data[0].messages 
                 ? JSON.parse(data[0].messages) 
                 : [''];
-            const wordsData = await fetch('http://127.0.0.1:8000/getWords', {
+            const wordsData = await fetch('https://chat-en-app-5044aa6f7d13.herokuapp.com/getWords', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
