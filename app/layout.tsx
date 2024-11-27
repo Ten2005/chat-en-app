@@ -1,18 +1,23 @@
-import type { Metadata } from "next";
+import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 
-export const metadata: Metadata = {
-  title: "Title",
-  description: "description",
+const defaultUrl = process.env.VERCEL_URL
+  ? `https://${process.env.VERCEL_URL}`
+  : "http://localhost:3000";
+
+export const metadata = {
+  metadataBase: new URL(defaultUrl),
+  title: "AIを活用した英語学習アプリのサンプル",
+  description: "チャット、語彙の習得、スコアの競い合いができます。",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="ja">
+    <html lang="ja" className={GeistSans.className} suppressHydrationWarning>
       <body>
         {children}
       </body>
