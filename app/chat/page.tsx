@@ -1,7 +1,7 @@
 'use client'
 
 import { createClient } from '@/utils/supabase/client'
-import { use, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { redirect } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 import Link from "next/link"
@@ -51,20 +51,32 @@ export default function Learning() {
             return data;
         };
         const getData = async (userEmail: string) => {
-            const { data, error } = await supabase.from('users').select('messages').eq('email', userEmail);
+            const { data, error } = await supabase
+            .from('users')
+            .select('messages')
+            .eq('email', userEmail);
             if (error) {
                 const { error: upsertError } = await supabase
                 .from('users')
-                .upsert({ email: userEmail })
+                .upsert({ email: userEmail, messages: JSON.stringify(['Hello! How are you?']) })
                 if (upsertError) {
                     console.error("データベースへのアップサートエラー:", upsertError)
                     redirect('/error')
                 }
+                return;
             }
-            const parsedMessages = data && data.length > 0 && data[0].messages
-            ? data.map((item: any) => JSON.parse(item.messages))
-            : ['Hello! How are you?'];
-            setMessages(parsedMessages.flat());
+            
+            try {
+                const parsedMessages = data && data.length > 0 && data[0].messages
+                    ? (typeof data[0].messages === 'string' 
+                        ? JSON.parse(data[0].messages)
+                        : data[0].messages)
+                    : ['Hello! How are you?'];
+                setMessages(Array.isArray(parsedMessages) ? parsedMessages : [parsedMessages]);
+            } catch (e) {
+                console.error('メッセージのパースエラー:', e);
+                setMessages(['Hello! How are you?']);
+            }
         };
 
         checkUser().then(userData => {
@@ -194,7 +206,7 @@ return (
                 </li>
                 <li className="mt-2">
                     <Link href={'/compete'} className='border-b border-slate-600 p-1'>競い合う</Link>
-                    <p className='text-xs ml-2 mt-2 p-2'>保存された単語数と、ランダムに出題されるテストの結果をもとにスコアが算出さ���ます</p>
+                    <p className='text-xs ml-2 mt-2 p-2'>保存された単語数と、ランダムに出題されるテストの結果をもとにスコアが算出さます</p>
                 </li>
             </ul>
         </SheetContent>
