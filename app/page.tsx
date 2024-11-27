@@ -68,7 +68,7 @@ function TabsTop() {
 export default async function Index() {
   return (
     <>
-    <main className="w-screen h-screen flex items-center justify-center">
+    <main className="w-screen h-screen flex items-center justify-center p-10">
       <TabsTop />
     </main>
     </>

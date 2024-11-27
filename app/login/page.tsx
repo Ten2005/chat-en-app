@@ -13,13 +13,6 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
   
 
 export default function LoginPage() {
@@ -35,11 +28,11 @@ return (
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="email">メールアドレス</Label>
-              <Input id="email" />
+              <Input id="email" name="email" type="email" required />
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="password">パスワード</Label>
-              <Input id="password" />
+              <Input id="password" name="password" type="password" required />
             </div>
           </div>
           <div className="flex justify-between mt-6 px-2">
