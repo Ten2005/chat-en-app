@@ -38,9 +38,7 @@ return (
             {/* <Button variant="outline" formAction={signup}>Sign up</Button> */}
             <Button
             className='disabled:opacity-50'
-            onClick={() => setIsPushed(true)}
-            formAction={signWithOTP}
-            size="sm"
+            formAction={isPushed ? undefined : signWithOTP}
             disabled={isPushed}>新規登録・ログイン</Button>
           </div>
         </form>
