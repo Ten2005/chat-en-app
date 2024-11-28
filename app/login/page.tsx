@@ -18,7 +18,6 @@ import { Label } from "@/components/ui/label"
   
 
 export default function LoginPage() {
-  const [isPushed, setIsPushed] = useState(false);
 return (
     <div className="flex justify-center items-center h-screen w-screen px-10">
     <Card className='w-full max-w-[350px]'>
@@ -37,9 +36,16 @@ return (
           <div className="flex justify-end mt-6 px-2">
             {/* <Button variant="outline" formAction={signup}>Sign up</Button> */}
             <Button
-            className='disabled:opacity-50'
-            formAction={isPushed ? undefined : signWithOTP}
-            disabled={isPushed}>新規登録・ログイン</Button>
+            type="submit"
+            onClick={(e) => {
+                e.preventDefault();
+                const emailInput = document.getElementById('email') as HTMLInputElement;
+                if (emailInput) {
+                    e.currentTarget.disabled = true;
+                    signWithOTP({ email: emailInput.value });
+                }
+            }}
+            >新規登録・ログイン</Button>
           </div>
         </form>
       </CardContent>
