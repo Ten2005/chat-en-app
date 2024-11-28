@@ -44,6 +44,7 @@ export default function Learning() {
     useEffect(() => {
         const checkUser = async () => {
             const { data, error } = await supabase.auth.getUser();
+            console.log('data:', data);
             if (error || !data?.user) {
                 router.push('/login');
             }

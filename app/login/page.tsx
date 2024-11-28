@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label"
   
 
 export default function LoginPage() {
+  const [isPushed, setIsPushed] = useState(false);
 return (
     <div className="flex justify-center items-center h-screen w-screen px-10">
     <Card className='w-full max-w-[350px]'>
@@ -33,7 +34,12 @@ return (
           </div>
           <div className="flex justify-end mt-6 px-2">
             {/* <Button variant="outline" formAction={signup}>Sign up</Button> */}
-            <Button formAction={signWithOTP} size="sm">新規登録・ログイン</Button>
+            <Button
+            className='disabled:opacity-50'
+            onClick={() => setIsPushed(true)}
+            formAction={signWithOTP}
+            size="sm"
+            disabled={isPushed}>新規登録・ログイン</Button>
           </div>
         </form>
       </CardContent>
