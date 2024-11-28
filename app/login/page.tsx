@@ -1,4 +1,4 @@
-import { login, signup } from './actions'
+import { signWithOTP } from './actions'
 
 import * as React from "react"
  
@@ -17,8 +17,8 @@ import { Label } from "@/components/ui/label"
 
 export default function LoginPage() {
 return (
-    <>
-    <Card className="w-[350px] m-auto mt-[30vh]">
+    <div className="flex justify-center items-center h-screen w-screen px-10">
+    <Card className='w-full max-w-[350px]'>
       <CardHeader>
         <CardTitle>ログイン・新規登録</CardTitle>
         <CardDescription className='text-xs'>新規登録は認証メールが送信されます</CardDescription>
@@ -30,19 +30,15 @@ return (
               <Label htmlFor="email">メールアドレス</Label>
               <Input id="email" name="email" type="email" required />
             </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="password">パスワード</Label>
-              <Input id="password" name="password" type="password" required />
-            </div>
           </div>
-          <div className="flex justify-between mt-6 px-2">
-            <Button variant="outline" formAction={signup}>Sign up</Button>
-            <Button formAction={login}>Log in</Button>
+          <div className="flex justify-end mt-6 px-2">
+            {/* <Button variant="outline" formAction={signup}>Sign up</Button> */}
+            <Button formAction={signWithOTP} size="sm">新規登録・ログイン</Button>
           </div>
         </form>
       </CardContent>
     </Card>
-    </>
+    </div>
 
 )
 }

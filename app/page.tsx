@@ -31,6 +31,9 @@ function TabsTop() {
             下の翻訳するボタンを押すと訳が作成、表示されます。また、音声ボタンでは発音が確認できます。このステップでは最終ゴールをイメージしましょう。
             </CardDescription>
           </CardHeader>
+          <CardFooter>
+            <Button className="ml-auto mr-0"><Link href={'/chat'}>学習を始める</Link></Button>
+          </CardFooter>
         </Card>
       </TabsContent>
       <TabsContent value="step2">
@@ -43,6 +46,9 @@ function TabsTop() {
             最終ゴールは単語のイメージを掴むことです。訳語や文法知識を丸暗記することは非効率な学習です。
             </CardDescription>
           </CardHeader>
+          <CardFooter>
+            <Button className="ml-auto mr-0"><Link href={'/chat'}>学習を始める</Link></Button>
+          </CardFooter>
         </Card>
       </TabsContent>
       <TabsContent value="step3">

@@ -6,58 +6,46 @@ import { createClient } from '@/utils/supabase/server'
 
 export async function login(formData: FormData) {
     const supabase = await createClient()
-
-    // type-casting here for convenience
-    // in practice, you should validate your inputs
-
     const data = {
         email: formData.get('email') as string,
         password: formData.get('password') as string,
     }
-
-    console.log("ログインデータ:", data)
-
+    console.log("data:", data)
     const { data: authData, error } = await supabase.auth.signInWithPassword(data)
-
+    console.log("error:", error)
     if (error) {
-        console.log("ログインエラー:", error)
-        redirect('/error')
-    }
+        const { error } = await supabase.auth.signUp(data)
 
-    if (!authData?.user) {
-        console.log("認証エラー: ユーザーデータが見つかりません")
-        redirect('/error')
-    }
-
-    // Modified database operation to handle existing users
-    const { data: existingUser } = await supabase
-        .from('users')
-        .select()
-        .eq('email', data.email)
-        .single()
-
-    if (!existingUser) {
-        const { error: insertError } = await supabase
-            .from('users')
-            .insert([
-                { email: data.email },
-            ])
-
-        if (insertError) {
-            console.error("データベースへの挿入エラー:", insertError)
+        if (error) {
             redirect('/error')
         }
     }
 
-    revalidatePath('/', 'layout')
-    redirect('/')
+    console.log("authData:", authData)
+
+    revalidatePath('/chat', 'layout')
+    redirect('/chat')
+}
+
+export async function signWithOTP(formData: FormData) {
+    const supabase = await createClient()
+    const fromForm = {
+        email: formData.get('email') as string,
+    }
+    const { data, error } = await supabase.auth.signInWithOtp({
+        email: fromForm.email,
+        options: {
+          emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/chat`,
+        },
+    })
+    if (error) {
+        redirect('/error')
+    }
+    redirect('/confirm')
 }
 
 export async function signup(formData: FormData) {
     const supabase = await createClient()
-
-    // type-casting here for convenience
-    // in practice, you should validate your inputs
     const data = {
         email: formData.get('email') as string,
         password: formData.get('password') as string,
@@ -66,17 +54,6 @@ export async function signup(formData: FormData) {
     const { error } = await supabase.auth.signUp(data)
 
     if (error) {
-        redirect('/error')
-    }
-
-    const { error: insertError } = await supabase
-        .from('users')
-        .insert([
-            { email: data.email },
-        ])
-
-    if (insertError) {
-        console.error("データベースへの挿入エラー:", insertError)
         redirect('/error')
     }
 

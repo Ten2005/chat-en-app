@@ -44,7 +44,7 @@ export const updateSession = async (request: NextRequest) => {
       return NextResponse.redirect(new URL("/sign-in", request.url));
     }
 
-    if (request.nextUrl.pathname === "/" && !user.error) {
+    if ((request.nextUrl.pathname === "/" || request.nextUrl.pathname === "/login") && !user.error) {
       return NextResponse.redirect(new URL("/chat", request.url));
     }
 

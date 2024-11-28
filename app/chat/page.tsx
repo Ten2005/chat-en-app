@@ -56,14 +56,20 @@ export default function Learning() {
             .select('messages')
             .eq('email', userEmail);
             if (error) {
-                const { error: upsertError } = await supabase
-                .from('users')
-                .upsert({ email: userEmail, messages: JSON.stringify(['Hello! How are you?']) })
-                if (upsertError) {
-                    console.error("データベースへのアップサートエラー:", upsertError)
-                    redirect('/error')
-                }
+                console.error("データベースの取得エラー:", error);
+                redirect('/error');
                 return;
+            }
+            if (!data || data.length === 0) {
+                const { error: insertError } = await supabase
+                .from('users')
+                .insert({ email: userEmail, messages: JSON.stringify(['Hello! How are you?']) });
+                setMessages(['Hello! How are you?']);
+
+                if (insertError) {
+                    console.error("データベースへの挿入エラー:", insertError);
+                    redirect('/error');
+                }
             }
             
             try {
@@ -109,11 +115,11 @@ export default function Learning() {
 
         const addReplyMessages = [...addInputMessages, reply];
         setMessages(addReplyMessages);
-
+        console.log('userEmail:', userEmail);
         const { error } = await supabase
-        .from('users')
-        .update({ messages: JSON.stringify(addReplyMessages) })
-        .eq('email', userEmail);
+            .from('users')
+            .update({ messages: JSON.stringify(addReplyMessages) })
+            .eq('email', userEmail);
         if (error) {
             console.error("Error sending message:", error);
             return;
