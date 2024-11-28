@@ -1,3 +1,5 @@
+'use client'
+
 import { signWithOTP } from './actions'
 
 import * as React from "react"
